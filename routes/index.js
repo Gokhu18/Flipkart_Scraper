@@ -56,7 +56,7 @@ router.post("/home", async (req, res, next) => {
         var a = cheerio.load(htmlpage);
         var lastPage = a("div._2zg3yZ > span").text();
         var arr = lastPage.split(" ");
-        if (numberofPages < arr[3]) {
+        if (page < arr[3]) {
             for (var index = 1; index <= page; index++) {
                 var html = await request.get("https://www.flipkart.com/search?q=" + search + "&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=off&as=off&page=" + index);
                 var $ = cheerio.load(html);
