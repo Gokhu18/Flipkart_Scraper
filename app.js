@@ -62,38 +62,38 @@ app.use('/', indexRouter);
 require("./config/passport")(passport);
 
 
-async function scrape() {
-    try {
-        var item = "boat headphone";
-        var numberofPages = 1;
-        var search = encodeURIComponent(item).replace(/%20/g, "+");
-        var html = await request.get("https://www.flipkart.com/search?q=" + search + "&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=off&as=off&page=1");
-        var a = cheerio.load(html);
-        var lastPage = a("div._2zg3yZ > span").text();
-        var arr = lastPage.split(" ");
-        if (numberofPages < arr[3]) {
-            for (var index = 1; index <= numberofPages; index++) {
-                console.log(index);
-                const htmlPage = await request.get("https://www.flipkart.com/search?q=" + search + "&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=off&as=off&page=" + index);
-                const $ = cheerio.load(htmlPage);
-                var itemAr = $("div._3liAhj").map((i, element) => {
-                    var itemName = $(element).find("a._2cLu-l").attr("title");
-                    var itemDesc = $(element).find("div._1rcHFq").text();
-                    var itemPrice = $(element).find("div._1vC4OE").text();
-                    var ratings = $(element).find("div.hGSR34").text();
-                    var offPrice = $(element).find("div.VGWI6T").text();
-                    var originalPrice = $(element).find("div._3auQ3N").text();
-                    return { itemName, itemDesc, itemPrice, ratings, offPrice, originalPrice };
-                }).get();
-                console.log(itemAr);
-            }
-        } else {
-            console.log("result available till " + arr[3]);
-        }
-    } catch (err) {
-        console.error(err);
-    }
-}
+// async function scrape() {
+//     try {
+//         var item = "boat headphone";
+//         var numberofPages = 1;
+//         var search = encodeURIComponent(item).replace(/%20/g, "+");
+//         var html = await request.get("https://www.flipkart.com/search?q=" + search + "&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=off&as=off&page=1");
+//         var a = cheerio.load(html);
+//         var lastPage = a("div._2zg3yZ > span").text();
+//         var arr = lastPage.split(" ");
+//         if (numberofPages < arr[3]) {
+//             for (var index = 1; index <= numberofPages; index++) {
+//                 console.log(index);
+//                 const htmlPage = await request.get("https://www.flipkart.com/search?q=" + search + "&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=off&as=off&page=" + index);
+//                 const $ = cheerio.load(htmlPage);
+//                 var itemAr = $("div._3liAhj").map((i, element) => {
+//                     var itemName = $(element).find("a._2cLu-l").attr("title");
+//                     var itemDesc = $(element).find("div._1rcHFq").text();
+//                     var itemPrice = $(element).find("div._1vC4OE").text();
+//                     var ratings = $(element).find("div.hGSR34").text();
+//                     var offPrice = $(element).find("div.VGWI6T").text();
+//                     var originalPrice = $(element).find("div._3auQ3N").text();
+//                     return { itemName, itemDesc, itemPrice, ratings, offPrice, originalPrice };
+//                 }).get();
+//                 console.log(itemAr);
+//             }
+//         } else {
+//             console.log("result available till " + arr[3]);
+//         }
+//     } catch (err) {
+//         console.error(err);
+//     }
+// }
 
 // scrape();
 
